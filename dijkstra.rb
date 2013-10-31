@@ -6,7 +6,7 @@ require 'algorithms'
 infinity = 999999
 
 start_node = 0;
-end_node = 5; # Will print out path + distance from start to end, if nil will print all paths
+end_node = nil; # Will print out path + distance from start to end, if nil will print all paths
 
 node_labels = ["A", "B", "C", "D", "E", "F", "G", "H"]
 
