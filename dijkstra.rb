@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'algorithms'
 
+# Uses the graph from http://www.youtube.com/watch?v=8Ls1RqHCOPw
+
 infinity = 999999
 
 start_node = 0;
+end_node = 5; # Will print out path + distance from start to end, if nil will print all paths
 
 node_labels = ["A", "B", "C", "D", "E", "F", "G", "H"]
 
@@ -45,22 +48,41 @@ while !priority_queue.empty?
   end
 end
 
-puts "Distance from start:"
-node_labels.each_with_index do |node_label, i|
-  if distance_from_start[i] == infinity
-    puts "#{node_label}: infinity"
-  else 
-    puts "#{node_label}: #{distance_from_start[i]}"
+# Print of results
+if end_node.nil?
+  puts "Distance from start:"
+  node_labels.each_with_index do |node_label, i|
+    if distance_from_start[i] == infinity
+      puts "#{node_label}: infinity"
+    else 
+      puts "#{node_label}: #{distance_from_start[i]}"
+    end
   end
-end
 
-puts "--------------------"
+  puts "--------------------"
 
-puts "Previous node:"
-node_labels.each_with_index do |node_label, i|
-  if previous_node_for_node[i].nil?
-    puts "#{node_label}: none"
-  else
-    puts "#{node_label}: #{node_labels[previous_node_for_node[i]]}"
+  puts "Paths:"
+  node_labels.each_with_index do |node_label, i|
+    if previous_node_for_node[i].nil?
+      puts "#{node_label}: none"
+    else
+      print "#{node_label}: "
+      current_node = i
+      while current_node != start_node
+        print "#{node_labels[current_node]} < "
+        current_node = previous_node_for_node[current_node]
+      end
+      puts node_labels[start_node]
+    end
   end
+else
+  puts "Distance from #{node_labels[start_node]} to #{node_labels[end_node]}: #{distance_from_start[end_node]}"
+  puts "--------------------"
+  puts "Path from #{node_labels[start_node]} to #{node_labels[end_node]}:"
+  current_node = end_node
+  while current_node != start_node
+    print "#{node_labels[current_node]} < "
+    current_node = previous_node_for_node[current_node]
+  end
+  puts node_labels[start_node]
 end
